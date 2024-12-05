@@ -55,7 +55,7 @@ app.get('/', (req, res) => {
 
 // 서버 시작
 const PORT = process.env.PORT;
-const HOST = process.env.HOST;
+const HOST = "0.0.0.0";
 
 // 서버 시작 시 크롤링 실행
 async function startServer() {
