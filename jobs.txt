@@ -1,0 +1,216 @@
+
+/**
+ * @swagger
+ * tags:
+ *   name: Jobs
+ *   description: 채용 공고 관련 API
+ */
+
+/**
+ * @swagger
+ * /jobs/search:
+ *   get:
+ *     summary: 채용 공고 검색 및 필터링
+ *     description: 주어진 쿼리 파라미터를 통해 채용 공고를 검색하고 필터링합니다.
+ *     tags: [Jobs]
+ *     parameters:
+ *       - in: query
+ *         name: title
+ *         required: false
+ *         description: 공고 제목에 포함된 키워드
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: company
+ *         required: false
+ *         description: 회사명
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: description
+ *         required: false
+ *         description: 포지션
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: location
+ *         required: false
+ *         description: 지역
+ *         schema:
+ *           type: string
+ *       - in: query
+ *         name: salary
+ *         required: false
+ *         description: 최소 급여
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: 성공적으로 검색된 채용 공고
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: success
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       id:
+ *                         type: integer
+ *                         example: 1
+ *                       title:
+ *                         type: string
+ *                         example: Software Engineer
+ *                       company:
+ *                         type: string
+ *                         example: Tech Company
+ *                       position:
+ *                         type: string
+ *                         example: Backend Developer
+ *                       location:
+ *                         type: string
+ *                         example: Seoul
+ *                       experience:
+ *                         type: integer
+ *                         example: 2
+ *                       salary:
+ *                         type: integer
+ *                         example: 50000000
+ *                       skills:
+ *                         type: string
+ *                         example: Node.js, MySQL
+ *                       createdAt:
+ *                         type: string
+ *                         format: date-time
+ *                         example: 2024-11-29T00:00:00.000Z
+ *       500:
+ *         description: 오류 발생
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 status:
+ *                   type: string
+ *                   example: error
+ *                 message:
+ *                   type: string
+ *                   example: 채용 공고 검색/필터링 중 오류가 발생했습니다.
+ *                 code:
+ *                   type: string
+ *                   example: ERROR_CODE
+ */
+
+
+
+
+ // 채용 공고 수정 API (PUT /jobs/:id)
+// router.put('/:id', authenticateJWT, async (req, res) => {
+//     const jobId = req.params.id;
+//     const { title, company, description, location, salary } = req.body;
+
+//     if (!title || !company || !description || !location || !salary) {
+//         return res.status(400).json({
+//             status: 'error',
+//             message: '모든 필드를 입력해 주세요.'
+//         });
+//     }
+
+//     try {
+//         const job = await Job.findByPk(jobId);
+//         if (!job) {
+//             return res.status(404).json({
+//                 status: 'error',
+//                 message: '해당 채용 공고를 찾을 수 없습니다.',
+//             });
+//         }
+
+//         // 채용 공고 수정
+//         job.title = title;
+//         job.company = company;
+//         job.description = description;
+//         job.location = location;
+//         job.salary = salary;
+//         await job.save();
+
+//         res.status(200).json({
+//             status: 'success',
+//             message: '채용 공고가 성공적으로 수정되었습니다.',
+//             data: job,
+//         });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({
+//             status: 'error',
+//             message: '채용 공고 수정 중 오류가 발생했습니다.',
+//         });
+//     }
+// });
+
+// 채용 공고 삭제 API (DELETE /jobs/:id)
+// router.delete('/:id', authenticateJWT, async (req, res) => {
+//     const jobId = req.params.id;
+
+//     try {
+//         const job = await Job.findByPk(jobId);
+//         if (!job) {
+//             return res.status(404).json({
+//                 status: 'error',
+//                 message: '해당 채용 공고를 찾을 수 없습니다.',
+//             });
+//         }
+
+//         // 채용 공고 삭제
+//         await job.destroy();
+
+//         res.status(200).json({
+//             status: 'success',
+//             message: '채용 공고가 성공적으로 삭제되었습니다.',
+//         });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({
+//             status: 'error',
+//             message: '채용 공고 삭제 중 오류가 발생했습니다.',
+//         });
+//     }
+// });
+
+// // 채용 공고 등록 API (POST /jobs)
+// router.post('/', authenticateJWT, async (req, res) => {
+//     const { title, company, description, location, salary } = req.body;
+
+//     if (!title || !company || !description || !location || !salary) {
+//         return res.status(400).json({
+//             status: 'error',
+//             message: '모든 필드를 입력해 주세요.'
+//         });
+//     }
+
+//     try {
+//         const newJob = await Job.create({
+//             title,
+//             company,
+//             description,
+//             location,
+//             salary,
+//             userId: req.user.id, // 공고를 등록한 사용자 ID
+//         });
+
+//         res.status(201).json({
+//             status: 'success',
+//             data: newJob,
+//         });
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({
+//             status: 'error',
+//             message: '채용 공고 등록 중 오류가 발생했습니다.',
+//         });
+//     }
+// });
