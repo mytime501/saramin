@@ -392,7 +392,7 @@ router.put('/profile', authenticateJWT, async (req, res) => {
  * @returns {Object} 201 Created 응답 객체 (회원가입 성공), 400 Bad Request 응답 객체 (잘못된 입력), 
  * 500 Internal Server Error 응답 객체 (서버 오류)
  */
-
+// 회원가입 API
 router.post('/register', validateUserInput, handleValidationErrors, async (req, res) => {
     const { email, password, name } = req.body;
 
@@ -468,6 +468,7 @@ router.post('/register', validateUserInput, handleValidationErrors, async (req, 
  * @returns {Object} 200 OK 응답 객체 (회원 탈퇴 성공), 404 Not Found 응답 객체 (사용자 미존재 또는 삭제 실패), 
  * 500 Internal Server Error 응답 객체 (서버 오류)
  */
+// 회원탈퇴 API
 router.delete('/profile', authenticateJWT, async (req, res) => {
     const userId = req.user.id; // 인증된 사용자 ID (미들웨어에서 설정된)
 
