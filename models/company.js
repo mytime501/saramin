@@ -40,7 +40,7 @@ module.exports = (sequelize, DataTypes) => {
         tableName: 'companies',  // 테이블 이름을 소문자 'jobs'로 명시
     });
     Company.associate = (models) => {
-        Company.hasMany(models.Job, { foreignKey: 'companyId', onDelete: 'CASCADE' });
+        Company.belongsTo(models.Job, { foreignKey: 'jobId' });
     };
 
     return Company;

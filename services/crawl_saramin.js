@@ -58,7 +58,8 @@ async function crawl_saramin(pages) {
                         deadline: $(job).find('.support_detail .date').text(),
                         techStack: $(job).find('.job_sector span').map(function() {
                             return $(this).text().trim(); // 각 span의 텍스트를 가져와서 앞뒤 공백을 제거
-                        }).get().join(', ') || null, // 배열로 변환 후 쉼표로 결합                        
+                        }).get().join(', ') || null, // 배열로 변환 후 쉼표로 결합   
+                        description: $(job).find('.job_tit a').text(),                     
                         salary: $(job).find('.salary').text(),
                     };
 
@@ -105,6 +106,7 @@ function validateAndNormalizeJobData(rawData) {
     normalizedData.location = rawData.location?.trim() || null;
     normalizedData.education = rawData.education?.trim() || null;
     normalizedData.techStack = rawData.techStack?.trim() || null;
+    normalizedData.description = rawData.title.trim();
     normalizedData.salary = rawData.salary?.trim() || null;
 
     // 경력 및 고용형태 처리
